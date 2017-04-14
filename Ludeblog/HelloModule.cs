@@ -2,6 +2,6 @@
 
 public class HelloModule : Nancy.NancyModule {
 	public HelloModule() {
-		Get["/"] = parameters => "Hello World";
+		Get["/{name?World}"] = parameters => String.Format("Hello, {0}!", parameters.name);
 	}
 }
