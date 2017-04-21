@@ -59,6 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="BaseModule.cs" />
     <Compile Include="Mongo.cs" />
+    <Compile Include="Bootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
