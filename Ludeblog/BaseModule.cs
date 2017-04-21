@@ -19,6 +19,7 @@ public class BaseModule : NancyModule {
 			}
 
 			ctx.Parameters.subdomain = subdomain;
+
 			return null;
 		};
 	}
