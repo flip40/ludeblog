@@ -9,7 +9,7 @@ namespace Ludeblog {
 	public sealed class Mongo {
 		private static readonly Mongo instance = new Mongo();
 
-		public static IMongoClient client;
+		private static IMongoClient client;
 		private static Dictionary<String, IMongoDatabase> databases;
 
 		public static Mongo Instance {
