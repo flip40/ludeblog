@@ -6,20 +6,21 @@ using MongoDB.Driver;
 using Nancy;
 
 namespace Ludeblog {
-	public sealed class Mongo {
-		private static readonly Mongo instance = new Mongo();
+	public static class Mongo {
+		private static IMongoClient client = InitClient();
+		private static Dictionary<String, IMongoDatabase> databases = InitDatabases();
 
-		private static IMongoClient client;
-		private static Dictionary<String, IMongoDatabase> databases;
-
-		public static Mongo Instance {
-			get {
-				return instance;
-			}
+		/**
+		 * Initialize Mongo Client
+		 */
+		private static IMongoClient InitClient() {
+			return new MongoClient("mongodb://localhost");
 		}
 
-		private Mongo() {
-			client = new MongoClient("mongodb://localhost");
+		/**
+		 * Initialize Mongo Databases
+		 */
+		private static Dictionary<String, IMongoDatabase> InitDatabases() {
 			databases = new Dictionary<string, IMongoDatabase>();
 
 			// TODO: Allow setup from config instead of hardcoded
@@ -27,6 +28,8 @@ namespace Ludeblog {
 			databases["clinton"] = client.GetDatabase("clinton");
 			//databases["clint"] = client.GetDatabase("clint");
 			//databases["danee"] = client.GetDatabase("danee");
+
+			return databases;
 		}
 
 		public static async Task Insert(NancyContext context, String collectionName, BsonDocument document) {
@@ -72,6 +75,9 @@ namespace Ludeblog {
 			return await collection.DeleteManyAsync(filter);
 		}
 
+		/**
+		 * Return proper database based on context
+		 */
 		private static IMongoDatabase Database(NancyContext context) {
 			return databases[context.Parameters.subdomain];
 		}
