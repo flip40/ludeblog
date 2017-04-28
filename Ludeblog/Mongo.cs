@@ -7,20 +7,11 @@ using Nancy;
 
 namespace Ludeblog {
 	public static class Mongo {
-		private static IMongoClient client = InitClient();
-		private static Dictionary<String, IMongoDatabase> databases = InitDatabases();
+		private static IMongoClient client;
+		private static Dictionary<String, IMongoDatabase> databases;
 
-		/**
-		 * Initialize Mongo Client
-		 */
-		private static IMongoClient InitClient() {
-			return new MongoClient("mongodb://localhost");
-		}
-
-		/**
-		 * Initialize Mongo Databases
-		 */
-		private static Dictionary<String, IMongoDatabase> InitDatabases() {
+		static Mongo() {
+			client = new MongoClient("mongodb://localhost");
 			databases = new Dictionary<string, IMongoDatabase>();
 
 			// TODO: Allow setup from config instead of hardcoded
@@ -28,8 +19,6 @@ namespace Ludeblog {
 			databases["clinton"] = client.GetDatabase("clinton");
 			//databases["clint"] = client.GetDatabase("clint");
 			//databases["danee"] = client.GetDatabase("danee");
-
-			return databases;
 		}
 
 		public static async Task Insert(NancyContext context, String collectionName, BsonDocument document) {
